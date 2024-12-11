@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.1.js"></script>
+	<title>Master Barang</title>
+</head>
+<body>
+	<div class="navheader">
+		<div id="toggle">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		<h3>APLIKASI GUDANG</h3>
+		<div id="user">
+			<div class="username">
+				K-Play
+				<i class='bx bxs-user'></i>
+			</div>
+			<table id="userprofile">
+				<tr>
+					<td><i class="bx bxs-user"></i></td>
+					<td>User Profile</td>
+				</tr>
+				<tr>
+					<td><i class='bx bx-log-out-circle'></i></td>
+					<td>Logout</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<script>
+		$(document).ready(function() {
+			$('.username').click(function() {
+				$('#userprofile').toggle();
+			})
+		})
+	</script>
+	<!--sidebar awal-->
+	<div class=contener>
+		<div class="sidebar">
+			<span class="row"></span>
+			<ul id="master">
+				<li class="first-child">
+					Master
+					<i class="bx bx-chevron-left"></i>
+				</li>
+					<ul id="last-child-master" class="last-child">
+						<li><a href="master-barang.html">Barang</a></li>
+						<li><a href="">Supplier</a></li>
+					</ul>
+				
+			</ul>
+			<span class="row"></span>
+			<ul id="transaksi">
+				<li  class="first-child">
+					Transaksi
+					<i class="bx bx-chevron-left"></i>
+				</li>
+
+					<ul id="last-child-transaksi" class="last-child">
+						<li><a href="">Terima Barang</a></li>
+						<li><a href="">Mutasi Barang</a></li>
+						<li><a href="">Retur Supplier</a></li>
+					</ul>
+
+			</ul>
+							<span class="row"></span>
+			<ul id="laporan">
+				<li class="first-child">
+					Laporan
+					<i class="bx bx-chevron-left"></i>
+				</li>
+			
+				
+					<ul id="last-child-laporan" class="last-child">
+						<li><a href="">Laporan Persediaan</a></li>
+						<li><a href="">Laporan Terima Barang</a></li>
+						<li><a href="">Laporan Mutasi Barang</a></li>
+						<li><a href="">Laporan Retur Supplier</a></li>
+					</ul>
+				
+				<span class="row"></span>
+			</ul>
+		<script>
+			$(document).ready(function() {
+			$('#master').click(function() {
+				$('#last-child-master').toggle();
+				$('#last-child-transaksi').hide();
+				$('#last-child-laporan').hide();
+			})
+			})
+
+			$(document).ready(function() {
+			$('#transaksi').click(function() {
+				$('#last-child-transaksi').toggle();
+				$('#last-child-master').hide();
+				$('#last-child-laporan').hide();
+			})
+			})
+
+			$(document).ready(function() {
+			$('#laporan').click(function() {
+				$('#last-child-laporan').toggle();
+				$('#last-child-transaksi').hide();
+				$('#last-child-master').hide();
+			})
+			})
+		</script>
+		</div>
+		<!--sidebar akhir-->
+		<!--content-->
+		<div class="content">
+			<h1>Master Barang</h1>
+			<div class="form-cari">
+				<div class="botton-group">
+					<button type="button" class="btn-control">Tambah</button>
+					<button type="button" class="btn-control">Edit</button>
+					<button type="button" class="btn-control">Hapus</button>
+				</div>
+			</div>			
+		</div>
+		
+	</div>
+</body>
+</html>
