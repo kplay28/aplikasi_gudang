@@ -2,15 +2,27 @@
 $(document).ready(function () {
 	// Toggle sidebar visibility
 	$("#toggle").click(function () {
-		$(".sidebar-menu").toggleClass("hidden");
-	});
-
+       
+            $(".sidebar-menu").toggleClass("hidden");
+        
+    });
 	// Toggle submenu
     $(".menu-item").click(function () {
 	    $(this).next(".submenu").slideToggle();
 		$(this).find("i").toggleClass("bx-chevron-down bx-chevron-up");
 	});
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+	// Fungsi untuk toggle sidebar
+	const toggleButton = document.querySelector("#toggle");
+	const sidebar = document.querySelector(".sidebar-menu");
+
+	toggleButton.addEventListener("click", () => {
+		sidebar.classList.toggle("visible");
+	});
+});
+
 const SPREADSHEET_ID = "1C8yEZtypCWUHJ3IB9WMi4OZD8AUWr7BDG7jux5A3l10";
 const API_KEY = "AIzaSyA3CnJkI8Tv9QE9EbKH5kVOH6u4Kf7HQ7M";
 const MASTER_SHEET = "Master!A2:F";
@@ -115,16 +127,6 @@ function filterTable(searchTerm) {
 		row.style.display = isVisible ? "" : "none";
 	});
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-	// Fungsi untuk toggle sidebar
-	const toggleButton = document.querySelector("#toggle");
-	const sidebar = document.querySelector(".sidebar");
-
-	toggleButton.addEventListener("click", () => {
-		sidebar.classList.toggle("visible");
-	});
-});
 
 //const SPREADSHEET_ID = "1C8yEZtypCWUHJ3IB9WMi4OZD8AUWr7BDG7jux5A3l10";
 //const API_KEY = "AIzaSyA3CnJkI8Tv9QE9EbKH5kVOH6u4Kf7HQ7M";
@@ -346,4 +348,45 @@ function populateTable(data) {
 		});
 		tbody.appendChild(tr);
 	});
+}
+
+//const API_KEY = 'YOUR_API_KEY'; // Ganti dengan API Key Anda
+//const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID'; // Ganti dengan ID Spreadsheet Anda
+const RANGE = 'user!A:B'; // Ganti dengan nama sheet dan range data (username & password)
+
+async function fetchUserData() {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+    const response = await fetch(url);
+    if (!response.ok) {
+    	throw new Error('Failed to fetch data');
+    }
+    const data = await response.json();
+      	return data.values.slice(1).map(row => ({
+        username: row[0],
+        password: row[1],
+    }));
+}
+
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const errorMessage = document.getElementById('error-message');
+
+	try {
+		const users = await fetchUserData();
+        const isValid = users.some(user => user.username === username && user.password === password);
+        if (isValid) {
+          	errorMessage.textContent = '';
+          	document.getElementById('login-form').style.display = 'none';
+          	document.querySelector('.main-container').style.display = 'block';
+			document.getElementById('user-active').textContent = username;
+			username = "";
+			password = "";
+        } else {
+          	errorMessage.textContent = 'Invalid username or password';
+        }
+    } catch (error) {
+		errorMessage.textContent = 'Error connecting to server.';
+        console.error(error);
+    }
 }

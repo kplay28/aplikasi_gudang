@@ -80,10 +80,13 @@ function renderForm(isEdit = false, data = {}) {
     formContainer.className = "form-container";
 
     formContainer.innerHTML = `
-        <div class="form-content">
-			<div class="input-group input-group">
-            	<input type="text" id="inputKodeBarcode" placeholder="Masukkan Kode atau Barcode" />
-            	<button type="button" id="searchButton">
+        <div class="card col position-absolute top-50 start-50 translate-middle" style="width: 30rem;">
+			
+            <div class="col m-3">
+            <H3 class="mb-3">Form Input Stock</H3>
+            <div class="input-group mb-5">
+            	<input class="form-control" type="text" id="inputKodeBarcode" placeholder="Masukkan Kode atau Barcode" />
+            	<button class="btn btn-primary" type="button" id="searchButton">
 					<i class="fas fa-search"></i> <!-- Ikon dari Font Awesome -->
 				</button>
 			</div>
@@ -91,16 +94,21 @@ function renderForm(isEdit = false, data = {}) {
                 <div class="spinner"></div>
                 <span>Sedang memuat data...</span>
             </div>
-            <form name="inputstock">
-                <label for="kode_namaBarang">Kode - Nama Barang:</label>
-                <input type="text" id="kode_namaBarang" name="barang" placeholder="Kode - Nama Barang" readonly />
-
-                <label for="qty">Qty:</label>
-                <input type="number" id="qty" name="qty" placeholder="Masukkan Qty" required />
-
-                <button type="submit">Simpan</button>
-                <button type="button" class="cancel-button" onclick="closeForm()">Batal</button>
+            <form name="inputstock" class="col mb-3">
+                <div class="col mb-3">
+                    <label for="kode_namaBarang">Kode - Nama Barang :</label>
+                    <input class="form-control" type="text" id="kode_namaBarang" name="barang" placeholder="Kode - Nama Barang" readonly />
+                </div>
+                <div class="col mb-3">
+                    <label for="qty">Qty :</label>
+                    <input class="form-control" type="number" id="qty" name="qty" placeholder="Masukkan Qty" required />
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary mb-3">Simpan</button>
+                    <button type="button" class="btn btn-danger mb-3" onclick="closeForm()">Batal</button>
+                </div>
             </form>
+            </div>
         </div>
     `;
 
