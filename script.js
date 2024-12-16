@@ -26,7 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
 const SPREADSHEET_ID = "1C8yEZtypCWUHJ3IB9WMi4OZD8AUWr7BDG7jux5A3l10";
 const API_KEY = "AIzaSyA3CnJkI8Tv9QE9EbKH5kVOH6u4Kf7HQ7M";
 const MASTER_SHEET = "Master!A2:F";
-
 const SHEET_NAME = "Master";
 const STOCK_OPNAME_SHEET = "StockOpname";
 
@@ -350,43 +349,50 @@ function populateTable(data) {
 	});
 }
 
-//const API_KEY = 'YOUR_API_KEY'; // Ganti dengan API Key Anda
-//const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID'; // Ganti dengan ID Spreadsheet Anda
-const RANGE = 'user!A:B'; // Ganti dengan nama sheet dan range data (username & password)
+const API_URL = "https://script.google.com/macros/s/AKfycbwyvWbfW6qRDKus0JhUXDp0s4VtPUdp11Qd7dXeCTndBHbnatFzLgJThq8QY6QvE3IT/exec";
 
 async function fetchUserData() {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
-    const response = await fetch(url);
-    if (!response.ok) {
-    	throw new Error('Failed to fetch data');
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+		console.log(data);
+        return data.map(row => ({
+			
+            username: row.username,
+            password: row.password,
+        }));
+		
+    } catch (error) {
+        console.error('Failed to fetch user data:', error);
+        throw new Error('Unable to fetch user data. Please check your connection or server configuration.');
     }
-    const data = await response.json();
-      	return data.values.slice(1).map(row => ({
-        username: row[0],
-        password: row[1],
-    }));
+	console.log(data);
 }
 
 async function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
     const errorMessage = document.getElementById('error-message');
 
-	try {
-		const users = await fetchUserData();
-        const isValid = users.some(user => user.username === username && user.password === password);
+    try {
+        const users = await fetchUserData();
+		console.log("Users from API:", users);
+        const isValid = users.some(user => user.username === username && String(user.password) === password);
         if (isValid) {
-          	errorMessage.textContent = '';
-          	document.getElementById('login-form').style.display = 'none';
-          	document.querySelector('.main-container').style.display = 'block';
-			document.getElementById('user-active').textContent = username;
-			username = "";
-			password = "";
+            errorMessage.textContent = '';
+            document.getElementById('login-form').style.display = 'none';
+            document.querySelector('.main-container').style.display = 'block';
+            document.getElementById('user-active').textContent = username;
+			console.log(username + password);
+			
         } else {
-          	errorMessage.textContent = 'Invalid username or password';
+            errorMessage.textContent = 'Invalid username or password';
         }
     } catch (error) {
-		errorMessage.textContent = 'Error connecting to server.';
+        errorMessage.textContent = 'Error connecting to server. Please try again later.';
         console.error(error);
     }
 }
