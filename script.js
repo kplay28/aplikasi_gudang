@@ -379,10 +379,8 @@ async function login() {
           	errorMessage.textContent = '';
           	document.getElementById('login-form').style.display = 'none';
           	document.querySelector('.main-container').style.display = 'block';
-			document.getElementById('user-active').textContent = username;
-			username = "";
-			password = "";
-        } else {
+		document.getElementById('user-active').textContent = username;
+		} else {
           	errorMessage.textContent = 'Invalid username or password';
         }
     } catch (error) {
