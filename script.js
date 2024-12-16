@@ -382,14 +382,14 @@ async function login() {
 		console.log("Users from API:", users);
         const isValid = users.some(user => user.username === username && String(user.password) === password);
         if (isValid) {
-            errorMessage.textContent = '';
-            document.getElementById('login-form').style.display = 'none';
-            document.querySelector('.main-container').style.display = 'block';
-            document.getElementById('user-active').textContent = username;
-			console.log(username + password);
-			
+          	errorMessage.textContent = '';
+          	document.getElementById('login-form').style.display = 'none';
+          	document.querySelector('.main-container').style.display = 'block';
+			document.getElementById('user-active').textContent = username;
+			username = "";
+			password = "";
         } else {
-            errorMessage.textContent = 'Invalid username or password';
+          	errorMessage.textContent = 'Invalid username or password';
         }
     } catch (error) {
         errorMessage.textContent = 'Error connecting to server. Please try again later.';
